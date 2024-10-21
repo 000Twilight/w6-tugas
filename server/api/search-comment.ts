@@ -5,7 +5,7 @@ const prisma = new PrismaClient();
 
 export default defineEventHandler(async (event) => {
   const query = getQuery(event);
-  const { search } = query;
+  const search = typeof query.search === 'string' ? query.search : '';
 
   if (!search) {
     return { error: 'Search term is required.' };
@@ -15,7 +15,7 @@ export default defineEventHandler(async (event) => {
     const result = await prisma.guestbookEntry.findMany({
       where: {
         comment: {
-          contains: search,
+          contains: search || '',
         },
       },
     });
