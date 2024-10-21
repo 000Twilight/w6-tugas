@@ -35,8 +35,7 @@ services:
       - PORT=3000
       - DATABASE_URL=${DATABASE_URL}
     depends_on:
-      mariadb:
-        condition: service_healthy
+      - mariadb
     networks:
       - nuxt_network
 

@@ -22,7 +22,8 @@
     "h3": "^1.13.0",
     "nuxt": "^3.13.0",
     "vue": "latest",
-    "vue-router": "latest"
+    "vue-router": "latest",
+    "validator": "^13.7.0"
   },
   "devDependencies": {
     "@types/express": "^5.0.0",
