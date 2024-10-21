@@ -1,10 +1,30 @@
+version: '3'
+
 services:
+  mariadb:
+    image: mariadb:latest
+    container_name: mariadb
+    restart: always
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    volumes:
+      - ./database:/var/lib/mysql
+    networks:
+      - nuxt_network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
   nuxt-app:
     build:
       context: .
-      args: 
-        DATABASE_URL: mysql://${MYSQL_USER}:${MYSQL_PASSWORD}@mariadb:3306/${MYSQL_DATABASE}
-
     container_name: nuxt_app_container
     ports:
       - "3000:3000"
@@ -15,23 +35,8 @@ services:
       - PORT=3000
       - DATABASE_URL=${DATABASE_URL}
     depends_on:
-      - mariadb
-    networks:
-      - nuxt_network
-
-  mariadb:
-    image: mariadb:latest
-    container_name: mariadb
-    restart: always
-    ports:
-      - "3420:3306"
-    environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-      MYSQL_DATABASE: ${MYSQL_DATABASE}
-      MYSQL_USER: ${MYSQL_USER}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-    volumes:
-      - ./database:/var/lib/mysql
+      mariadb:
+        condition: service_healthy
     networks:
       - nuxt_network
 
