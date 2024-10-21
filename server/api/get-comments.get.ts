@@ -1,19 +1,17 @@
+import express from 'express';
 import { PrismaClient } from '@prisma/client';
-import { defineEventHandler } from 'h3';
+import verifyToken from './middleware/verifyToken';
 
 const prisma = new PrismaClient();
+const router = express.Router();
 
-export default defineEventHandler(async (event) => {
+router.get('/get-comments', verifyToken, async (req, res) => {
   try {
-    const comments = await prisma.guestbookEntry.findMany({
-      orderBy: {
-        createdAt: 'desc',
-      },
-    });
-
-    return comments;
+    const comments = await prisma.guestbookEntry.findMany();
+    res.status(200).json(comments);
   } catch (error) {
-    console.error('Failed to fetch comments:', error);
-    return { error: 'Failed to fetch comments' };
+    res.status(500).send('Failed to fetch comments');
   }
 });
+
+export default router;

@@ -1,33 +1,34 @@
 import { PrismaClient } from '@prisma/client';
+import validator from 'validator';
 
 const prisma = new PrismaClient();
 
 async function main() {
   const guestbookEntries = [
     {
-      name: "Budi Santoso",
-      email: "budi.santoso@example.com",
-      comment: "Wihh mantap banget nih website! Keren abis, bro! 😎👍",
+      name: validator.escape("Budi Santoso"),
+      email: validator.escape("budi.santoso@example.com"),
+      comment: validator.escape("Wihh mantap banget nih website! Keren abis, bro! 😎👍"),
     },
     {
-      name: "Siti Nurhaliza",
-      email: "siti.nur@example.com",
-      comment: "Halo semua! Seru banget nih, semoga makin sukses ya! ✨",
+      name: validator.escape("Siti Nurhaliza"),
+      email: validator.escape("siti.nur@example.com"),
+      comment: validator.escape("Halo semua! Seru banget nih, semoga makin sukses ya! ✨"),
     },
     {
-      name: "Doni Pratama",
-      email: "doni.pratama@example.com",
-      comment: "Gw sih gasuka basa basi, pokoknya jos gandos! 😁🔥",
+      name: validator.escape("Doni Pratama"),
+      email: validator.escape("doni.pratama@example.com"),
+      comment: validator.escape("Gw sih gasuka basa basi, pokoknya jos gandos! 😁🔥"),
     },
     {
-      name: "Rina Aprilia",
-      email: "rina.aprilia@example.com",
-      comment: "Ih, kece banget ini! Boleh dong gabung lagi lain kali! 🤩",
+      name: validator.escape("Rina Aprilia"),
+      email: validator.escape("rina.aprilia@example.com"),
+      comment: validator.escape("Ih, kece banget ini! Boleh dong gabung lagi lain kali! 🤩"),
     },
     {
-      name: "Andi Wibowo",
-      email: "andi.wibowo@example.com",
-      comment: "Website ini beneran gokil, ga nyangka! Semangat terus buat developernya! 🚀💪",
+      name: validator.escape("Andi Wibowo"),
+      email: validator.escape("andi.wibowo@example.com"),
+      comment: validator.escape("Website ini beneran gokil, ga nyangka! Semangat terus buat developernya! 🚀💪"),
     },
   ];
 
@@ -42,7 +43,7 @@ async function main() {
 
 main()
   .catch((e) => {
-    console.error(e);
+    console.error("Error during seeding:", e);
     process.exit(1);
   })
   .finally(async () => {
